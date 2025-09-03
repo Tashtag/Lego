@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Item Table</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    input { margin-bottom: 10px; padding: 5px; width: 200px; }
+    table { border-collapse: collapse; width: 100%; margin-bottom: 10px; }
+    th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+    th { background: #f2f2f2; }
+    tr:hover { background: #f9f9f9; cursor: pointer; }
+    .pagination { margin-top: 10px; }
+    button { padding: 5px 10px; margin: 0 5px; }
+    button:disabled { opacity: 0.5; cursor: not-allowed; }
+  </style>
+</head>
+<body>
+  <h1>Item List</h1>
+  <input type="text" id="filterInput" placeholder="Filter by name or category...">
+
+  <table id="itemTable">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Category</th>
+        <th>Price ($)</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <div class="pagination">
+    <button id="prevBtn">⬅ Previous</button>
+    <span id="pageInfo"></span>
+    <button id="nextBtn">Next ➡</button>
+  </div>
+
+  <script>
+    let fullData = [];
+    let filteredData = [];
+    let currentPage = 1;
+    const itemsPerPage = 20;
+
+    async function loadData() {
+      const response = await fetch('data.json');
+      fullData = await response.json();
+      filteredData = fullData; // start unfiltered
+      renderTable();
+    }
+
+    function renderTable() {
+      const tbody = document.querySelector('#itemTable tbody');
+      tbody.innerHTML = '';
+
+      const start = (currentPage - 1) * itemsPerPage;
+      const end = start + itemsPerPage;
+      const pageItems = filteredData.slice(start, end);
+
+      pageItems.forEach(item => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${item.name}</td>
+          <td>${item.category}</td>
+          <td>${item.price.toFixed(2)}</td>
+        `;
+        row.addEventListener('click', () => {
+          window.location.href = `item.html?id=${item.id}`;
+        });
+        tbody.appendChild(row);
+      });
+
+      updatePagination();
+    }
+
+    function updatePagination() {
+      const totalPages = Math.ceil(filteredData.length / itemsPerPage);
+      document.getElementById('pageInfo').innerText = `Page ${currentPage} of ${totalPages || 1}`;
+      document.getElementById('prevBtn').disabled = currentPage === 1;
+      document.getElementById('nextBtn').disabled = currentPage === totalPages || totalPages === 0;
+    }
+
+    document.getElementById('filterInput').addEventListener('input', (e) => {
+      const filter = e.target.value.toLowerCase();
+      filteredData = fullData.filter(item =>
+        item.name.toLowerCase().includes(filter) ||
+        item.category.toLowerCase().includes(filter)
+      );
+      currentPage = 1; // reset to first page when filtering
+      renderTable();
+    });
+
+    document.getElementById('prevBtn').addEventListener('click', () => {
+      if (currentPage > 1) {
+        currentPage--;
+        renderTable();
+      }
+    });
+
+    document.getElementById('nextBtn').addEventListener('click', () => {
+      const totalPages = Math.ceil(filteredData.length / itemsPerPage);
+      if (currentPage < totalPages) {
+        currentPage++;
+        renderTable();
+      }
+    });
+
+    // Initial load
+    loadData();
+  </script>
+</body>
+</html>
