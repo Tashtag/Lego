@@ -5,7 +5,8 @@
   <title>Item Detail</title>
   <style>
     body { font-family: Arial, sans-serif; margin: 20px; }
-    .card { border: 1px solid #ccc; padding: 20px; border-radius: 5px; max-width: 400px; }
+    .card { border: 1px solid #ccc; padding: 20px; border-radius: 5px; max-width: 500px; }
+    img.main { width: 100%; max-width: 400px; border-radius: 5px; margin-bottom: 15px; }
   </style>
 </head>
 <body>
@@ -30,6 +31,7 @@
 
       if (item) {
         document.getElementById('itemDetails').innerHTML = `
+          <img src="${item.image}" alt="${item.name}" class="main">
           <h2>${item.name}</h2>
           <p><strong>Category:</strong> ${item.category}</p>
           <p><strong>Price:</strong> $${item.price.toFixed(2)}</p>
