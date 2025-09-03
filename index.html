@@ -7,9 +7,10 @@
     body { font-family: Arial, sans-serif; margin: 20px; }
     input { margin-bottom: 10px; padding: 5px; width: 200px; }
     table { border-collapse: collapse; width: 100%; margin-bottom: 10px; }
-    th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+    th, td { border: 1px solid #ccc; padding: 8px; text-align: left; vertical-align: middle; }
     th { background: #f2f2f2; }
     tr:hover { background: #f9f9f9; cursor: pointer; }
+    img.thumb { width: 50px; height: 50px; object-fit: cover; border-radius: 5px; }
     .pagination { margin-top: 10px; }
     button { padding: 5px 10px; margin: 0 5px; }
     button:disabled { opacity: 0.5; cursor: not-allowed; }
@@ -22,6 +23,7 @@
   <table id="itemTable">
     <thead>
       <tr>
+        <th>Image</th>
         <th>Name</th>
         <th>Category</th>
         <th>Price ($)</th>
@@ -45,7 +47,7 @@
     async function loadData() {
       const response = await fetch('data.json');
       fullData = await response.json();
-      filteredData = fullData; // start unfiltered
+      filteredData = fullData;
       renderTable();
     }
 
@@ -57,9 +59,16 @@
       const end = start + itemsPerPage;
       const pageItems = filteredData.slice(start, end);
 
+      if (pageItems.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="4">No items found</td></tr>`;
+        updatePagination();
+        return;
+      }
+
       pageItems.forEach(item => {
         const row = document.createElement('tr');
         row.innerHTML = `
+          <td><img src="${item.image}" alt="${item.name}" class="thumb"></td>
           <td>${item.name}</td>
           <td>${item.category}</td>
           <td>${item.price.toFixed(2)}</td>
@@ -86,7 +95,7 @@
         item.name.toLowerCase().includes(filter) ||
         item.category.toLowerCase().includes(filter)
       );
-      currentPage = 1; // reset to first page when filtering
+      currentPage = 1;
       renderTable();
     });
 
@@ -105,7 +114,6 @@
       }
     });
 
-    // Initial load
     loadData();
   </script>
 </body>
