@@ -84,7 +84,7 @@
         const row = document.createElement('tr');
         row.innerHTML = `
           <td class="first-coloumn"><img src="${item.image}" alt="${item.name}" class="item-image"></td>
-          <td>${item.name}</td>
+          <td>${item.id}: ${item.name}</td>
           <td>${item.category}</td>
           <td>${item.price.toFixed(2)}</td>
         `;
@@ -133,6 +133,7 @@
   </script>
 </body>
 </html>
+
 
 
 
