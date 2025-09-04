@@ -11,9 +11,13 @@
     th { background: #f2f2f2; }
     tr:hover { background: #f9f9f9; cursor: pointer; }
     .pagination { margin-top: 10px; }
+
+    first-coloumn {
+      width: 40%;
+    }
     
     img.item-image {
-    width: 40%;
+    width: 100%;
     height: auto;
     display: block;
     margin: 0 auto;
@@ -75,7 +79,7 @@
       pageItems.forEach(item => {
         const row = document.createElement('tr');
         row.innerHTML = `
-          <td><img src="${item.image}" alt="${item.name}" class="item-image"></td>
+          <td class="first-coloumn"><img src="${item.image}" alt="${item.name}" class="item-image"></td>
           <td>${item.name}</td>
           <td>${item.category}</td>
           <td>${item.price.toFixed(2)}</td>
@@ -125,6 +129,7 @@
   </script>
 </body>
 </html>
+
 
 
 
