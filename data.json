@@ -54,6 +54,7 @@
 { "id":60149	, "name": " ", "category": "CITY", "price": 50.00	,"description": " ", "image": "images/60149.jpg" }, 
 { "id":60163	, "name": " ", "category": "CITY", "price": 30.00	,"description": " ", "image": "images/60163.jpg" }, 
 { "id":60167	, "name": " ", "category": "CITY", "price": 200.00	,"description": " ", "image": "images/60167.jpg" }, 
-{ "id":60173	, "name": " ", "category": "CITY", "price": 160.00	,"description": " ", "image": "images/60173.jpg" }, 
+{ "id":60173	, "name": " ", "category": "CITY", "price": 160.00	,"description": " ", "image": "images/60173.jpg" }
 
 ]
+
