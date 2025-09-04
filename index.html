@@ -5,33 +5,46 @@
   <title>Item Table</title>
   <style>
     body { font-family: Arial, sans-serif; margin: 20px; }
-    input { margin-bottom: 10px; padding: 5px; width: 200px; }
+    input { margin-bottom: 10px; padding: 5px; }
     table { border-collapse: collapse; width: 100%; margin-bottom: 10px; margin-top: 20px; }
     th, td { border: 1px solid #ccc; padding: 8px; text-align: left; vertical-align: middle; }
     th { background: #f2f2f2; }
     tr:hover { background: #f9f9f9; cursor: pointer; }
-    .pagination { margin-top: 10px; }
+    .pagination { margin-top: 10px; text-align: center; }
 
-    first-coloumn {
-      width: 40%;
+    td:first-child, th:first-child {
+      max-width: 50%;  /* image column takes up to half width */
+      width: 1%;
     }
-    
+
     img.item-image {
-    width: 90%;
-    max-width: 500px;
-    height: auto;
-    display: block;
-    margin: 0 auto;
+      max-width: 100%;  /* scale within cell */
+      height: auto;     /* keep proportions */
+      display: block;
+      margin: 0 auto;
     }
-    
+
     button { padding: 5px 10px; margin: 0 5px; }
     button:disabled { opacity: 0.5; cursor: not-allowed; }
   </style>
 </head>
 <body>
   <h1>Item List</h1>
+
+  <!-- Filters -->
   <input type="text" id="filterInput" placeholder="Filter by name or category...">
 
+  <div id="filters">
+    <label for="minPrice">Min Price: </label>
+    <input type="number" id="minPrice" placeholder="0">
+
+    <label for="maxPrice">Max Price: </label>
+    <input type="number" id="maxPrice" placeholder="1000">
+
+    <button id="applyFilter">Apply</button>
+  </div>
+
+  <!-- Table -->
   <table id="itemTable">
     <thead>
       <tr>
@@ -44,6 +57,7 @@
     <tbody></tbody>
   </table>
 
+  <!-- Pagination -->
   <div class="pagination">
     <button id="prevBtn">⬅ Previous</button>
     <span id="pageInfo"></span>
@@ -56,13 +70,32 @@
     let currentPage = 1;
     const itemsPerPage = 20;
 
+    // Load JSON data
     async function loadData() {
-      const response = await fetch('data.json');
+      const response = await fetch("items.json");
       fullData = await response.json();
-      filteredData = fullData;
+      filteredData = fullData; // start with everything
       renderTable();
     }
 
+    // Apply all filters
+    function applyFilters() {
+      const search = document.getElementById('filterInput').value.toLowerCase();
+      const min = parseFloat(document.getElementById('minPrice').value) || 0;
+      const max = parseFloat(document.getElementById('maxPrice').value) || Infinity;
+
+      filteredData = fullData.filter(item =>
+        (item.name.toLowerCase().includes(search) ||
+         item.category.toLowerCase().includes(search)) &&
+        parseFloat(item.price) >= min &&
+        parseFloat(item.price) <= max
+      );
+
+      currentPage = 1;
+      renderTable();
+    }
+
+    // Render the table with pagination
     function renderTable() {
       const tbody = document.querySelector('#itemTable tbody');
       tbody.innerHTML = '';
@@ -80,10 +113,10 @@
       pageItems.forEach(item => {
         const row = document.createElement('tr');
         row.innerHTML = `
-          <td class="first-coloumn"><img src="${item.image}" alt="${item.name}" class="item-image"></td>
+          <td><img src="${item.image}" alt="${item.name}" class="item-image"></td>
           <td>${item.name}</td>
           <td>${item.category}</td>
-          <td>${item.price.toFixed(2)}</td>
+          <td>${Number(item.price).toFixed(2)}</td>
         `;
         row.addEventListener('click', () => {
           window.location.href = `item.html?id=${item.id}`;
@@ -94,6 +127,7 @@
       updatePagination();
     }
 
+    // Update pagination controls
     function updatePagination() {
       const totalPages = Math.ceil(filteredData.length / itemsPerPage);
       document.getElementById('pageInfo').innerText = `Page ${currentPage} of ${totalPages || 1}`;
@@ -101,15 +135,9 @@
       document.getElementById('nextBtn').disabled = currentPage === totalPages || totalPages === 0;
     }
 
-    document.getElementById('filterInput').addEventListener('input', (e) => {
-      const filter = e.target.value.toLowerCase();
-      filteredData = fullData.filter(item =>
-        item.name.toLowerCase().includes(filter) ||
-        item.category.toLowerCase().includes(filter)
-      );
-      currentPage = 1;
-      renderTable();
-    });
+    // Event listeners
+    document.getElementById('filterInput').addEventListener('input', applyFilters);
+    document.getElementById('applyFilter').addEventListener('click', applyFilters);
 
     document.getElementById('prevBtn').addEventListener('click', () => {
       if (currentPage > 1) {
@@ -130,13 +158,3 @@
   </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
