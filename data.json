@@ -81,10 +81,10 @@
   },
   {
     "id": 6738,
-    "name": "Deep Sea Explorer",
+    "name": "Skateboard Challenge",
     "category": "CITY",
     "price": 150.00,
-    "description": "Underwater exploration vehicle set.",
+    "description": "Skate park set.",
     "image": "images/6738.jpg"
   },
   {
@@ -161,170 +161,170 @@
   },
   {
     "id": 8401,
-    "name": "Service Station",
+    "name": "Minifigure Collection",
     "category": "CITY",
     "price": 40.00,
-    "description": "Gas station with mini service building.",
+    "description": "characters in a park",
     "image": "images/8401.jpg"
   },
   {
     "id": 60018,
-    "name": "Tail-Lift Truck",
+    "name": "Cement Mixer",
     "category": "CITY",
     "price": 100.00,
-    "description": "Delivery truck with functioning tail lift.",
+    "description": "Cement Mixer",
     "image": "images/60018.jpg"
   },
   {
     "id": 60041,
-    "name": "Snowmobile",
+    "name": "Crook Pursuit",
     "category": "CITY",
     "price": 20.00,
-    "description": "Compact snowmobile vehicle model.",
+    "description": "Police man on a moterbike.",
     "image": "images/60041.jpg"
   },
   {
     "id": 60043,
-    "name": "Propeller Plane",
+    "name": "Prisoner Transporter",
     "category": "CITY",
     "price": 70.00,
-    "description": "Small propeller-driven passenger airplane.",
+    "description": "",
     "image": "images/60043.jpg"
   },
   {
     "id": 60057,
-    "name": "Mini Desk Set",
+    "name": "Camper Van",
     "category": "CITY",
     "price": 50.00,
-    "description": "Desktop display set version of a City model.",
+    "description": "",
     "image": "images/60057.jpg"
   },
   {
     "id": 60058,
-    "name": "Mini Desk Set (Alternate)",
+    "name": "SUV with Watercraft",
     "category": "CITY",
     "price": 50.00,
-    "description": "Alternate desk small display model.",
+    "description": "",
     "image": "images/60058.jpg"
   },
   {
     "id": 60066,
-    "name": "Mini Desk Set (3rd Version)",
+    "name": "Swamp Police Starter Set",
     "category": "CITY",
     "price": 50.00,
-    "description": "Third variant of mini desk display set.",
+    "description": " ",
     "image": "images/60066.jpg"
   },
   {
     "id": 60069,
-    "name": "Rescue Helicopter",
+    "name": "Swamp Police Station",
     "category": "CITY",
     "price": 200.00,
-    "description": "Air rescue helicopter with winch.",
+    "description": "",
     "image": "images/60069.jpg"
   },
   {
     "id": 60073,
-    "name": "Roadwork Barrier Truck",
+    "name": "Service Truck",
     "category": "CITY",
     "price": 60.00,
-    "description": "Truck with roadwork barriers and lights.",
+    "description": " ",
     "image": "images/60073.jpg"
   },
   {
     "id": 60077,
-    "name": "Sweep & Vac Truck",
+    "name": "Space Starter Set",
     "category": "CITY",
     "price": 40.00,
-    "description": "Street maintenance sweeping vehicle.",
+    "description": " ",
     "image": "images/60077.jpg"
   },
   {
     "id": 60078,
-    "name": "Utility Forklift Truck",
+    "name": "Utility Shuttle",
     "category": "CITY",
     "price": 55.00,
-    "description": "Forklift for warehouse and storage use.",
+    "description": " ",
     "image": "images/60078.jpg"
   },
   {
     "id": 60079,
-    "name": "Site Watchtower",
+    "name": "Training Jet Transporter",
     "category": "CITY",
     "price": 130.00,
-    "description": "Elevated guard post for construction site.",
+    "description": " ",
     "image": "images/60079.jpg"
   },
   {
     "id": 60081,
-    "name": "Mini Office Unit",
+    "name": "Pickup Tow Truck",
     "category": "CITY",
     "price": 45.00,
-    "description": "Compact office display setting.",
+    "description": " ",
     "image": "images/60081.jpg"
   },
   {
     "id": 60082,
-    "name": "Mini Garage",
+    "name": "Dune Buggy Trailer",
     "category": "CITY",
     "price": 60.00,
-    "description": "Small mechanic’s garage model.",
+    "description": " ",
     "image": "images/60082.jpg"
   },
   {
     "id": 60083,
-    "name": "Mini Park",
+    "name": "Snowplow Truck",
     "category": "CITY",
     "price": 50.00,
-    "description": "Miniature city park setup.",
+    "description": " ",
     "image": "images/60083.jpg"
   },
   {
     "id": 60084,
-    "name": "Mini Farm",
+    "name": "Racing Bike Transporter",
     "category": "CITY",
     "price": 50.00,
-    "description": "Small-scale farm display unit.",
+    "description": " ",
     "image": "images/60084.jpg"
   },
   {
     "id": 60085,
-    "name": "Mini Cafe",
+    "name": "4x4 with Powerboat",
     "category": "CITY",
     "price": 110.00,
-    "description": "Café scene on a small desk display.",
+    "description": " ",
     "image": "images/60085.jpg"
   },
   {
     "id": 60088,
-    "name": "Mini Street Corner",
+    "name": "Fire Starter Set",
     "category": "CITY",
     "price": 30.00,
-    "description": "Corner section of city street in mini form.",
+    "description": " ",
     "image": "images/60088.jpg"
   },
   {
     "id": 60090,
-    "name": "Mini Airport Counter",
+    "name": "Deep Sea Scuba Scooter",
     "category": "CITY",
     "price": 40.00,
-    "description": "Airport counter model for display.",
+    "description": " ",
     "image": "images/60090.jpg"
   },
   {
     "id": 60092,
-    "name": "Mini Camper Van",
+    "name": "Deep Sea Submarine",
     "category": "CITY",
     "price": 120.00,
-    "description": "Compact camper van display set.",
+    "description": " ",
     "image": "images/60092.jpg"
   },
   {
     "id": 60100,
-    "name": "Mini Police Station",
+    "name": "Airport Starter Set",
     "category": "CITY",
     "price": 30.00,
-    "description": "Small police station display build.",
+    "description":  " ",
     "image": "images/60100.jpg"
   },
   {
@@ -337,50 +337,50 @@
   },
   {
     "id": 60113,
-    "name": "Mini Construction Site",
+    "name": "Rally Car",
     "category": "CITY",
     "price": 40.00,
-    "description": "Construction-themed desk mini build.",
+    "description": " ",
     "image": "images/60113.jpg"
   },
   {
     "id": 60114,
-    "name": "Mini Grocery Store",
+    "name": "Race Boat",
     "category": "CITY",
     "price": 40.00,
-    "description": "Mini city grocery scene.",
+    "description": " ",
     "image": "images/60114.jpg"
   },
   {
     "id": 60116,
-    "name": "Mini Vehicle Service Shop",
+    "name": "Ambulance Plane",
     "category": "CITY",
     "price": 70.00,
-    "description": "Auto service stall mini build.",
+    "description": " ",
     "image": "images/60116.jpg"
   },
   {
     "id": 60117,
-    "name": "Mini Recycling Truck",
+    "name": "Van & Caravan",
     "category": "CITY",
     "price": 70.00,
-    "description": "Desk-size recycling truck model.",
+    "description": " ",
     "image": "images/60117.jpg"
   },
   {
     "id": 60127,
-    "name": "Mini Mail Truck",
+    "name": "Prison Island Starter Set",
     "category": "CITY",
     "price": 25.00,
-    "description": "Postal service truck in miniature form.",
+    "description": " ",
     "image": "images/60127.jpg"
   },
   {
     "id": 60128,
-    "name": "Mini Construction Crane",
+    "name": "Police Pursuit",
     "category": "CITY",
     "price": 60.00,
-    "description": "Mini crane structure for construction display.",
+    "description": " ",
     "image": "images/60128.jpg"
   },
   {
@@ -393,43 +393,44 @@
   },
   {
     "id": 60147,
-    "name": "Mini Ice Cream Cart",
+    "name": "Fishing Boat",
     "category": "CITY",
     "price": 100.00,
-    "description": "Mini ice cream vendor cart model.",
+    "description": " ",
     "image": "images/60147.jpg"
   },
   {
     "id": 60149,
-    "name": "Mini Road Maintenance",
+    "name": "4x4 with Catamaran",
     "category": "CITY",
     "price": 50.00,
-    "description": "Roadwork mini build with machinery.",
+    "description": " ",
     "image": "images/60149.jpg"
   },
   {
     "id": 60163,
-    "name": "Mini Service Truck",
+    "name": "Coast Guard Starter Set",
     "category": "CITY",
     "price": 30.00,
-    "description": "Small-scale street service truck model.",
+    "description": " ",
     "image": "images/60163.jpg"
   },
   {
     "id": 60167,
-    "name": "Mini Bulldozer",
+    "name": "Coast Guard Headquarters",
     "category": "CITY",
     "price": 200.00,
-    "description": "Mini desk bulldozer model.",
+    "description": " ",
     "image": "images/60167.jpg"
   },
   {
     "id": 60173,
-    "name": "Mini Fire Truck",
+    "name": "Mountain Arrest",
     "category": "CITY",
     "price": 160.00,
-    "description": "Compact fire truck display build.",
+    "description": " ",
     "image": "images/60173.jpg"
   }
 ]
+
 
