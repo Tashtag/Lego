@@ -2,62 +2,44 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Item Catalog</title>
+  <title>Item Table</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 20px;
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    input { margin-bottom: 10px; padding: 5px; width: 200px; }
+    table { border-collapse: collapse; width: 100%; margin-bottom: 10px; margin-top: 20px; }
+    th, td { border: 1px solid #ccc; padding: 8px; text-align: left; vertical-align: middle; }
+    th { background: #f2f2f2; }
+    tr:hover { background: #f9f9f9; cursor: pointer; }
+    .pagination { margin-top: 10px; }
+
+    first-coloumn {
+      width: 40%;
     }
-    table {
-      width: 100%;
-      border-collapse: collapse;
+    
+    img.item-image {
+    width: 90%;
+    max-width: 500px;
+    height: auto;
+    display: block;
+    margin: 0 auto;
     }
-    th, td {
-      border: 1px solid #ccc;
-      padding: 10px;
-      text-align: left;
-      vertical-align: middle;
-    }
-    th {
-      background-color: #f4f4f4;
-    }
-    td img {
-      max-width: 100%;
-      height: auto;
-      display: block;
-    }
-    td.image-cell {
-      max-width: 50%; /* image column up to half the table */
-      width: 50%;
-    }
-    .controls {
-      margin-bottom: 15px;
-    }
-    .pagination {
-      margin-top: 15px;
-    }
-    .pagination button {
-      margin-right: 10px;
-    }
+    
+    button { padding: 5px 10px; margin: 0 5px; }
+    button:disabled { opacity: 0.5; cursor: not-allowed; }
   </style>
 </head>
 <body>
-  <h1>Item Catalog</h1>
+  <h1>Item List</h1>
+  <input type="text" id="filterInput" placeholder="Filter by name or category...">
+  
 
-  <div class="controls">
-    <input type="text" id="searchBox" placeholder="Search by name or description">
-    <input type="number" id="minPrice" placeholder="Min Price">
-    <input type="number" id="maxPrice" placeholder="Max Price">
-    <button onclick="applyFilters()">Apply Filters</button>
-    <button onclick="resetFilters()">Reset</button>
-  </div>
 
   <table id="itemTable">
     <thead>
       <tr>
         <th>Image</th>
         <th>Name</th>
-        <th>Description</th>
+        <th>Category</th>
         <th>Price ($)</th>
       </tr>
     </thead>
@@ -65,100 +47,100 @@
   </table>
 
   <div class="pagination">
-    <button onclick="prevPage()">Previous</button>
+    <button id="prevBtn">⬅ Previous</button>
     <span id="pageInfo"></span>
-    <button onclick="nextPage()">Next</button>
+    <button id="nextBtn">Next ➡</button>
   </div>
 
   <script>
-    let items = [];
-    let filteredItems = [];
+    let fullData = [];
+    let filteredData = [];
     let currentPage = 1;
     const itemsPerPage = 20;
+    
 
-    // Load JSON
-    async function loadItems() {
-      const response = await fetch("items.json");
-      items = await response.json();
-      filteredItems = items; // start with all items
-      displayPage();
+    async function loadData() {
+      const response = await fetch('data.json');
+      fullData = await response.json();
+      filteredData = fullData;
+      renderTable();
     }
 
-    // Display current page
-    function displayPage() {
-      const tbody = document.querySelector("#itemTable tbody");
-      tbody.innerHTML = "";
+    function renderTable() {
+      const tbody = document.querySelector('#itemTable tbody');
+      tbody.innerHTML = '';
 
       const start = (currentPage - 1) * itemsPerPage;
       const end = start + itemsPerPage;
-      const pageItems = filteredItems.slice(start, end);
+      const pageItems = filteredData.slice(start, end);
+
+      if (pageItems.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="4">No items found</td></tr>`;
+        updatePagination();
+        return;
+      }
 
       pageItems.forEach(item => {
-        const row = document.createElement("tr");
+        const row = document.createElement('tr');
         row.innerHTML = `
-          <td class="image-cell"><img src="${item.image}" alt="${item.name}"></td>
+          <td class="first-coloumn"><img src="${item.image}" alt="${item.name}" class="item-image"></td>
           <td>${item.name}</td>
-          <td>${item.description}</td>
-          <td>${item.price}</td>
+          <td>${item.category}</td>
+          <td>${item.price.toFixed(2)}</td>
         `;
-        row.onclick = () => showItemDetail(item);
+        row.addEventListener('click', () => {
+          window.location.href = `item.html?id=${item.id}`;
+        });
         tbody.appendChild(row);
       });
 
-      document.getElementById("pageInfo").textContent =
-        `Page ${currentPage} of ${Math.ceil(filteredItems.length / itemsPerPage)}`;
+      updatePagination();
     }
 
-    // Filtering logic
-    function applyFilters() {
-      const search = document.getElementById("searchBox").value.toLowerCase();
-      const minPrice = parseFloat(document.getElementById("minPrice").value);
-      const maxPrice = parseFloat(document.getElementById("maxPrice").value);
+    function updatePagination() {
+      const totalPages = Math.ceil(filteredData.length / itemsPerPage);
+      document.getElementById('pageInfo').innerText = `Page ${currentPage} of ${totalPages || 1}`;
+      document.getElementById('prevBtn').disabled = currentPage === 1;
+      document.getElementById('nextBtn').disabled = currentPage === totalPages || totalPages === 0;
+    }
 
-      filteredItems = items.filter(item => {
-        const matchesSearch =
-          item.name.toLowerCase().includes(search) ||
-          item.description.toLowerCase().includes(search);
-
-        const matchesMin = isNaN(minPrice) || item.price >= minPrice;
-        const matchesMax = isNaN(maxPrice) || item.price <= maxPrice;
-
-        return matchesSearch && matchesMin && matchesMax;
-      });
-
+    document.getElementById('filterInput').addEventListener('input', (e) => {
+      const filter = e.target.value.toLowerCase();
+      filteredData = fullData.filter(item =>
+        item.name.toLowerCase().includes(filter) ||
+        item.category.toLowerCase().includes(filter)
+      );
       currentPage = 1;
-      displayPage();
-    }
+      renderTable();
+    });
 
-    function resetFilters() {
-      document.getElementById("searchBox").value = "";
-      document.getElementById("minPrice").value = "";
-      document.getElementById("maxPrice").value = "";
-      filteredItems = items;
-      currentPage = 1;
-      displayPage();
-    }
-
-    // Pagination
-    function nextPage() {
-      if (currentPage * itemsPerPage < filteredItems.length) {
-        currentPage++;
-        displayPage();
-      }
-    }
-    function prevPage() {
+    document.getElementById('prevBtn').addEventListener('click', () => {
       if (currentPage > 1) {
         currentPage--;
-        displayPage();
+        renderTable();
       }
-    }
+    });
 
-    // Item detail
-    function showItemDetail(item) {
-      alert(`You clicked on ${item.name}\nPrice: $${item.price}\n\n${item.description}`);
-    }
+    document.getElementById('nextBtn').addEventListener('click', () => {
+      const totalPages = Math.ceil(filteredData.length / itemsPerPage);
+      if (currentPage < totalPages) {
+        currentPage++;
+        renderTable();
+      }
+    });
 
-    loadItems();
+    loadData();
   </script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
