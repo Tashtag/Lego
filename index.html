@@ -13,7 +13,7 @@
     .pagination { margin-top: 10px; }
     
     img.item-image {
-    max-width: 100%;
+    width: 40%;
     height: auto;
     display: block;
     margin: 0 auto;
@@ -75,7 +75,7 @@
       pageItems.forEach(item => {
         const row = document.createElement('tr');
         row.innerHTML = `
-          <td style="width:40%" ><img src="${item.image}" alt="${item.name}" class="item-image"></td>
+          <td><img src="${item.image}" alt="${item.name}" class="item-image"></td>
           <td>${item.name}</td>
           <td>${item.category}</td>
           <td>${item.price.toFixed(2)}</td>
@@ -125,6 +125,7 @@
   </script>
 </body>
 </html>
+
 
 
 
