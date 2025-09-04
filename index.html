@@ -129,10 +129,25 @@
       }
     });
 
+    document.getElementById('filterInput').addEventListener('input', (e) => {
+      const filter = e.target.value.toLowerCase();
+    
+      filteredData = fullData.filter(item =>
+        item.id.toString().toLowerCase().includes(filter) ||   // ✅ search by ID
+        item.name.toLowerCase().includes(filter) ||
+        item.category.toLowerCase().includes(filter)
+      );
+
+  currentPage = 1;
+  renderTable();
+});
+
+
     loadData();
   </script>
 </body>
 </html>
+
 
 
 
