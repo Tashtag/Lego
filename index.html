@@ -31,9 +31,7 @@
 <body>
   <h1>Item List</h1>
 
-  <!-- Filters -->
-  <input type="text" id="filterInput" placeholder="Filter by name or category...">
-
+  <!-- Price filter -->
   <div id="filters">
     <label for="minPrice">Min Price: </label>
     <input type="number" id="minPrice" placeholder="0">
@@ -74,28 +72,25 @@
     async function loadData() {
       const response = await fetch("items.json");
       fullData = await response.json();
-      filteredData = fullData; // start with everything
+      filteredData = fullData; // start with all items
       renderTable();
     }
 
-    // Apply all filters
-    function applyFilters() {
-      const search = document.getElementById('filterInput').value.toLowerCase();
+    // Apply price filter only when button clicked
+    function applyPriceFilter() {
       const min = parseFloat(document.getElementById('minPrice').value) || 0;
       const max = parseFloat(document.getElementById('maxPrice').value) || Infinity;
 
-      filteredData = fullData.filter(item =>
-        (item.name.toLowerCase().includes(search) ||
-         item.category.toLowerCase().includes(search)) &&
-        parseFloat(item.price) >= min &&
-        parseFloat(item.price) <= max
-      );
+      filteredData = fullData.filter(item => {
+        const price = parseFloat(item.price);
+        return price >= min && price <= max;
+      });
 
       currentPage = 1;
       renderTable();
     }
 
-    // Render the table with pagination
+    // Render table with pagination
     function renderTable() {
       const tbody = document.querySelector('#itemTable tbody');
       tbody.innerHTML = '';
@@ -119,7 +114,7 @@
           <td>${Number(item.price).toFixed(2)}</td>
         `;
         row.addEventListener('click', () => {
-          window.location.href = `item.html?id=${item.id}`;
+          window.location.href = \`item.html?id=\${item.id}\`;
         });
         tbody.appendChild(row);
       });
@@ -127,18 +122,15 @@
       updatePagination();
     }
 
-    // Update pagination controls
+    // Update pagination buttons
     function updatePagination() {
       const totalPages = Math.ceil(filteredData.length / itemsPerPage);
-      document.getElementById('pageInfo').innerText = `Page ${currentPage} of ${totalPages || 1}`;
+      document.getElementById('pageInfo').innerText = \`Page \${currentPage} of \${totalPages || 1}\`;
       document.getElementById('prevBtn').disabled = currentPage === 1;
       document.getElementById('nextBtn').disabled = currentPage === totalPages || totalPages === 0;
     }
 
-    // Event listeners
-    document.getElementById('filterInput').addEventListener('input', applyFilters);
-    document.getElementById('applyFilter').addEventListener('click', applyFilters);
-
+    // Pagination events
     document.getElementById('prevBtn').addEventListener('click', () => {
       if (currentPage > 1) {
         currentPage--;
@@ -153,6 +145,9 @@
         renderTable();
       }
     });
+
+    // Hook up filter button
+    document.getElementById('applyFilter').addEventListener('click', applyPriceFilter);
 
     loadData();
   </script>
