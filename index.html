@@ -2,154 +2,163 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Item Table</title>
+  <title>Item Catalog</title>
   <style>
-    body { font-family: Arial, sans-serif; margin: 20px; }
-    input { margin-bottom: 10px; padding: 5px; }
-    table { border-collapse: collapse; width: 100%; margin-bottom: 10px; margin-top: 20px; }
-    th, td { border: 1px solid #ccc; padding: 8px; text-align: left; vertical-align: middle; }
-    th { background: #f2f2f2; }
-    tr:hover { background: #f9f9f9; cursor: pointer; }
-    .pagination { margin-top: 10px; text-align: center; }
-
-    td:first-child, th:first-child {
-      max-width: 50%;  /* image column takes up to half width */
-      width: 1%;
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
     }
-
-    img.item-image {
-      max-width: 100%;  /* scale within cell */
-      height: auto;     /* keep proportions */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 10px;
+      text-align: left;
+      vertical-align: middle;
+    }
+    th {
+      background-color: #f4f4f4;
+    }
+    td img {
+      max-width: 100%;
+      height: auto;
       display: block;
-      margin: 0 auto;
     }
-
-    button { padding: 5px 10px; margin: 0 5px; }
-    button:disabled { opacity: 0.5; cursor: not-allowed; }
+    td.image-cell {
+      max-width: 50%; /* image column up to half the table */
+      width: 50%;
+    }
+    .controls {
+      margin-bottom: 15px;
+    }
+    .pagination {
+      margin-top: 15px;
+    }
+    .pagination button {
+      margin-right: 10px;
+    }
   </style>
 </head>
 <body>
-  <h1>Item List</h1>
+  <h1>Item Catalog</h1>
 
-  <!-- Price filter -->
-  <div id="filters">
-    <label for="minPrice">Min Price: </label>
-    <input type="number" id="minPrice" placeholder="0">
-
-    <label for="maxPrice">Max Price: </label>
-    <input type="number" id="maxPrice" placeholder="1000">
-
-    <button id="applyFilter">Apply</button>
+  <div class="controls">
+    <input type="text" id="searchBox" placeholder="Search by name or description">
+    <input type="number" id="minPrice" placeholder="Min Price">
+    <input type="number" id="maxPrice" placeholder="Max Price">
+    <button onclick="applyFilters()">Apply Filters</button>
+    <button onclick="resetFilters()">Reset</button>
   </div>
 
-  <!-- Table -->
   <table id="itemTable">
     <thead>
       <tr>
         <th>Image</th>
         <th>Name</th>
-        <th>Category</th>
+        <th>Description</th>
         <th>Price ($)</th>
       </tr>
     </thead>
     <tbody></tbody>
   </table>
 
-  <!-- Pagination -->
   <div class="pagination">
-    <button id="prevBtn">⬅ Previous</button>
+    <button onclick="prevPage()">Previous</button>
     <span id="pageInfo"></span>
-    <button id="nextBtn">Next ➡</button>
+    <button onclick="nextPage()">Next</button>
   </div>
 
   <script>
-    let fullData = [];
-    let filteredData = [];
+    let items = [];
+    let filteredItems = [];
     let currentPage = 1;
     const itemsPerPage = 20;
 
-    // Load JSON data
-    async function loadData() {
+    // Load JSON
+    async function loadItems() {
       const response = await fetch("items.json");
-      fullData = await response.json();
-      filteredData = fullData; // start with all items
-      renderTable();
+      items = await response.json();
+      filteredItems = items; // start with all items
+      displayPage();
     }
 
-    // Apply price filter only when button clicked
-    function applyPriceFilter() {
-      const min = parseFloat(document.getElementById('minPrice').value) || 0;
-      const max = parseFloat(document.getElementById('maxPrice').value) || Infinity;
-
-      filteredData = fullData.filter(item => {
-        const price = parseFloat(item.price);
-        return price >= min && price <= max;
-      });
-
-      currentPage = 1;
-      renderTable();
-    }
-
-    // Render table with pagination
-    function renderTable() {
-      const tbody = document.querySelector('#itemTable tbody');
-      tbody.innerHTML = '';
+    // Display current page
+    function displayPage() {
+      const tbody = document.querySelector("#itemTable tbody");
+      tbody.innerHTML = "";
 
       const start = (currentPage - 1) * itemsPerPage;
       const end = start + itemsPerPage;
-      const pageItems = filteredData.slice(start, end);
-
-      if (pageItems.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="4">No items found</td></tr>`;
-        updatePagination();
-        return;
-      }
+      const pageItems = filteredItems.slice(start, end);
 
       pageItems.forEach(item => {
-        const row = document.createElement('tr');
+        const row = document.createElement("tr");
         row.innerHTML = `
-          <td><img src="${item.image}" alt="${item.name}" class="item-image"></td>
+          <td class="image-cell"><img src="${item.image}" alt="${item.name}"></td>
           <td>${item.name}</td>
-          <td>${item.category}</td>
-          <td>${Number(item.price).toFixed(2)}</td>
+          <td>${item.description}</td>
+          <td>${item.price}</td>
         `;
-        row.addEventListener('click', () => {
-          window.location.href = \`item.html?id=\${item.id}\`;
-        });
+        row.onclick = () => showItemDetail(item);
         tbody.appendChild(row);
       });
 
-      updatePagination();
+      document.getElementById("pageInfo").textContent =
+        `Page ${currentPage} of ${Math.ceil(filteredItems.length / itemsPerPage)}`;
     }
 
-    // Update pagination buttons
-    function updatePagination() {
-      const totalPages = Math.ceil(filteredData.length / itemsPerPage);
-      document.getElementById('pageInfo').innerText = \`Page \${currentPage} of \${totalPages || 1}\`;
-      document.getElementById('prevBtn').disabled = currentPage === 1;
-      document.getElementById('nextBtn').disabled = currentPage === totalPages || totalPages === 0;
+    // Filtering logic
+    function applyFilters() {
+      const search = document.getElementById("searchBox").value.toLowerCase();
+      const minPrice = parseFloat(document.getElementById("minPrice").value);
+      const maxPrice = parseFloat(document.getElementById("maxPrice").value);
+
+      filteredItems = items.filter(item => {
+        const matchesSearch =
+          item.name.toLowerCase().includes(search) ||
+          item.description.toLowerCase().includes(search);
+
+        const matchesMin = isNaN(minPrice) || item.price >= minPrice;
+        const matchesMax = isNaN(maxPrice) || item.price <= maxPrice;
+
+        return matchesSearch && matchesMin && matchesMax;
+      });
+
+      currentPage = 1;
+      displayPage();
     }
 
-    // Pagination events
-    document.getElementById('prevBtn').addEventListener('click', () => {
+    function resetFilters() {
+      document.getElementById("searchBox").value = "";
+      document.getElementById("minPrice").value = "";
+      document.getElementById("maxPrice").value = "";
+      filteredItems = items;
+      currentPage = 1;
+      displayPage();
+    }
+
+    // Pagination
+    function nextPage() {
+      if (currentPage * itemsPerPage < filteredItems.length) {
+        currentPage++;
+        displayPage();
+      }
+    }
+    function prevPage() {
       if (currentPage > 1) {
         currentPage--;
-        renderTable();
+        displayPage();
       }
-    });
+    }
 
-    document.getElementById('nextBtn').addEventListener('click', () => {
-      const totalPages = Math.ceil(filteredData.length / itemsPerPage);
-      if (currentPage < totalPages) {
-        currentPage++;
-        renderTable();
-      }
-    });
+    // Item detail
+    function showItemDetail(item) {
+      alert(`You clicked on ${item.name}\nPrice: $${item.price}\n\n${item.description}`);
+    }
 
-    // Hook up filter button
-    document.getElementById('applyFilter').addEventListener('click', applyPriceFilter);
-
-    loadData();
+    loadItems();
   </script>
 </body>
 </html>
