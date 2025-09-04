@@ -1,6 +1,7 @@
 [
-  { "id": 1, "name": "Item One", "category": "Category A", "price": 10.99, "description": "This is the first item.", "image": "images/6276.jpg" },
+  { "id": 1, "name": "Item One", "category": "Category A", "price": 10.99, "description": "This is the first item.", "image": "images/4208.jpg" },
   { "id": 2, "name": "Item Two", "category": "Category B", "price": 15.49, "description": "This is the second item.", "image": "images/60363.jpg" },
   { "id": 3, "name": "Item Three", "category": "Category A", "price": 8.75, "description": "This is the third item.", "image": "images/70840.jpg" }
 ]
+
 
