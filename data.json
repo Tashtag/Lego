@@ -72,14 +72,6 @@
     "image": "images/5620.jpg"
   },
   {
-    "id": 6738,
-    "name": "Skateboard Challenge",
-    "category": "CITY",
-    "price": 150.00,
-    "description": "Skate park set.",
-    "image": "images/6738.jpg"
-  },
-  {
     "id": 7207,
     "name": "Fire Boat",
     "category": "CITY",
@@ -288,14 +280,6 @@
     "image": "images/60085.jpg"
   },
   {
-    "id": 60088,
-    "name": "Fire Starter Set",
-    "category": "CITY",
-    "price": 30.00,
-    "description": " ",
-    "image": "images/60088.jpg"
-  },
-  {
     "id": 60090,
     "name": "Deep Sea Scuba Scooter",
     "category": "CITY",
@@ -424,6 +408,7 @@
     "image": "images/60173.jpg"
   }
 ]
+
 
 
 
