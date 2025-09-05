@@ -16,14 +16,6 @@
     "image": "images/3368.jpg"
   },
   {
-    "id": 4208,
-    "name": "4×4 Fire Truck",
-    "category": "CITY",
-    "price": 50.00,
-    "description": "Forest Fire 4x4 rescue fire truck.",
-    "image": "images/4208.jpg"
-  },
-  {
     "id": 4433,
     "name": "Dirt Bike Transporter",
     "category": "CITY",
@@ -432,5 +424,6 @@
     "image": "images/60173.jpg"
   }
 ]
+
 
 
